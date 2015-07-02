@@ -41,7 +41,7 @@ class HttpAlert(AlertPlugin):
 
 	def _send_hipchat_alert(self, message, color='green', sender='Cabot'):
 
-		url = env.get('http://localhost:3000')
+		url = env.get('http://10.0.35.44:3000')
 
 		resp = requests.post(url, 
 			data={
