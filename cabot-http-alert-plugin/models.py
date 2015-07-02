@@ -15,42 +15,42 @@ class HttpAlert(AlertPlugin):
 	name = "AlertHttp"
 	author = "rfernandez"
 
-    def send_alert(self, service, users, duty_officers):
+	def send_alert(self, service, users, duty_officers):
 
-    	if service.overall_status == service.WARNING_STATUS:
-            alert = False
-        if service.overall_status == service.ERROR_STATUS:
-            if service.old_overall_status in (service.ERROR_STATUS, service.ERROR_STATUS):
-                alert = False 
-        if service.overall_status == service.PASSING_STATUS:
-            color = 'green'
-            if service.old_overall_status == service.WARNING_STATUS:
-                alert = False
-        else:
-            color = 'red'
+		if service.overall_status == service.WARNING_STATUS:
+			alert = False
+		if service.overall_status == service.ERROR_STATUS:
+			if service.old_overall_status in (service.ERROR_STATUS, service.ERROR_STATUS):
+				alert = False 
+		if service.overall_status == service.PASSING_STATUS:
+			color = 'green'
+			if service.old_overall_status == service.WARNING_STATUS:
+				alert = False
+		else:
+			color = 'red'
 
-    	c = Context({
-            'service': service,
-            'host': settings.WWW_HTTP_HOST,
-            'scheme': settings.WWW_SCHEME,
-            'alert': alert,
-        })
+		c = Context({
+			'service': service,
+			'host': settings.WWW_HTTP_HOST,
+			'scheme': settings.WWW_SCHEME,
+			'alert': alert,
+		})
 
-        message = Template(post_template).render(c)
-        self._send_post_alert(message, color=color, sender='Cabot/%s' % service.name)
+		message = Template(post_template).render(c)
+		self._send_post_alert(message, color=color, sender='Cabot/%s' % service.name)
 
-    def _send_hipchat_alert(self, message, color='green', sender='Cabot'):
+	def _send_hipchat_alert(self, message, color='green', sender='Cabot'):
 
-        url = env.get('POST_URL')
+		url = env.get('POST_URL')
 
-        resp = requests.post(url, 
-        	data={
-            'from': sender[:15],
-            'message': message,
-            'notify': 1,
-            'color': color,
-            'message_format': 'text',
-        })
+		resp = requests.post(url, 
+			data={
+			'from': sender[:15],
+			'message': message,
+			'notify': 1,
+			'color': color,
+			'message_format': 'text',
+		})
 
 class HttpAlert(AlertPluginUserData):
 	name = "HttpAlert Plugin"
