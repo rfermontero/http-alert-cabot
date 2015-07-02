@@ -7,5 +7,5 @@ setup(name='cabot-http-alert',
       description='A Cabot plugin for sending alerts over http post',
       author='Roberto Fernandez',
       packages=[
-      	'cabot-http-aler-plugin'
+      	'cabot-http-alert-plugin'
       ])
