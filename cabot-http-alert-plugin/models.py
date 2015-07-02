@@ -7,10 +7,9 @@ from os import environ as env
 
 import requests
 
-post_template = "Service {{ service.name }} {% if service.overall_status == service.PASSING_STATUS %}is back to normal{% else %}reporting {{ service.overall_status }} status{% endif %}: {{ scheme }}://{{ host }}{% url 'service' pk=service.id %}. {% if service.overall_status != service.PASSING_STATUS %}Checks failing: {% for check in service.all_failing_checks %}{% if check.check_category == 'Jenkins check' %}{% if check.last_result.error %} {{ check.name }} ({{ check.last_result.error|safe }}) {{jenkins_api}}job/{{ check.name }}/{{ check.last_result.job_number }}/console{% else %} {{ check.name }} {{jenkins_api}}/job/{{ check.name }}/{{check.last_result.job_number}}/console {% endif %}{% else %} {{ check.name }} {% if check.last_result.error %} ({{ check.last_result.error|safe }}){% endif %}{% endif %}{% endfor %}{% endif %}{% if alert %}{% for alias in users %} @{{ alias }}{% endfor %}{% endif %}"
+post_template = "test"
 
-
-class HttpAlert(AlertPlugin)
+class HttpAlert(AlertPlugin):
 
 	name = "AlertHttp"
 	author = "rfernandez"
@@ -52,10 +51,10 @@ class HttpAlert(AlertPlugin)
             'message_format': 'text',
         })
 
-    class HttpAlert(AlertPluginUserData):
-    name = "HttpAlert Plugin"
-    key = models.CharField(max_length=32, blank=False, verbose_name="User/Group Key")
-    alert_on_warn = models.BooleanField(default=False)
+class HttpAlert(AlertPluginUserData):
+	name = "HttpAlert Plugin"
+	key = models.CharField(max_length=32, blank=False, verbose_name="User/Group Key")
+	alert_on_warn = models.BooleanField(default=False)
 
 
 
