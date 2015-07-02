@@ -9,6 +9,7 @@ import requests
 
 post_template = "test"
 
+
 class HttpAlert(AlertPlugin):
 
 	name = "AlertHttp"
