@@ -34,19 +34,13 @@ class HttpAlert(AlertPlugin):
 			'scheme': settings.WWW_SCHEME,
 		})
 
-		message = Template(post_template).render(c)
-		self.post_http(message, color=color, sender='Cabot/%s' % service.name)
+		self.post_http(alert, color=color, sender='Cabot/%s' % service.name)
 
-	def post_http(self, message, color='green', sender='Cabot'):
-
-		resp = requests.post('http://169.254.161.235:3000/alerts',
-			data={
-			'from': sender[:15],
-			'message': message,
-			'notify': 1,
-			'color': color,
-			'message_format': 'text',
-		})
+	def post_http(self, alert, color='green', sender='Cabot'):
+		headers = {'content-type': 'application/json'}
+		data = json.dumps(alert.__dict__)
+		url = 'http://169.254.161.235:3000/alerts'
+		resp = requests.post(url,data=data,headers=headers)
 
 class HttpAlertUserData(AlertPluginUserData):
 	name = "HttpAlert Plugin"
