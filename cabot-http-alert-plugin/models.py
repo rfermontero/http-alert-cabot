@@ -28,17 +28,11 @@ class HttpAlert(AlertPlugin):
 		else:
 			color = 'red'
 
-		c = Context({
-			'service': service,
-			'host': settings.WWW_HTTP_HOST,
-			'scheme': settings.WWW_SCHEME,
-		})
+		self.post_http(service, color=color, sender='Cabot/%s' % service.name)
 
-		self.post_http(alert, color=color, sender='Cabot/%s' % service.name)
-
-	def post_http(self, alert, color='green', sender='Cabot'):
+	def post_http(self, service, color='green', sender='Cabot'):
 		headers = {'content-type': 'application/json'}
-		data = json.dumps(alert.__dict__)
+		data = json.dumps(service.__dict__)
 		url = 'http://169.254.161.235:3000/alerts'
 		resp = requests.post(url,data=data,headers=headers)
 
