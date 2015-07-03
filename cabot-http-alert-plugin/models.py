@@ -16,21 +16,9 @@ class HttpAlert(AlertPlugin):
 
 	def send_alert(self, service, users, duty_officers):
 
-		if service.overall_status == service.WARNING_STATUS:
-			alert = False
-		if service.overall_status == service.ERROR_STATUS:
-			if service.old_overall_status in (service.ERROR_STATUS, service.ERROR_STATUS):
-				alert = False 
-		if service.overall_status == service.PASSING_STATUS:
-			color = 'green'
-			if service.old_overall_status == service.WARNING_STATUS:
-				alert = False
-		else:
-			color = 'red'
+		self.post_http(service, color='red')
 
-		self.post_http(service, color=color, sender='Cabot/%s' % service.name)
-
-	def post_http(self, service, color='green', sender='Cabot'):
+	def post_http(self, service, color='green'):
 		headers = {'content-type': 'application/json'}
 		data = json.dumps(service.__dict__)
 		url = 'http://169.254.161.235:3000/alerts'
