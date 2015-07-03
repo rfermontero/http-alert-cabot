@@ -21,9 +21,17 @@ class HttpAlert(AlertPlugin):
 
 	def post_http(self, service, color='green'):
 		headers = {'content-type': 'application/json'}
-		data = json.dumps(service.__dict__)
+		data = json.dumps(service.__dict__, cls=DatetimeEncoder)
 		url = 'http://169.254.161.235:3000/alerts'
 		resp = requests.post(url,data=data,headers=headers)
+
+class DatetimeEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            return obj.strftime('%Y-%m-%dT%H:%M:%SZ')
+        elif isinstance(obj, date):
+            return obj.strftime('%Y-%m-%d')
+        return json.JSONEncoder.default(self, obj)
 
 class HttpAlertUserData(AlertPluginUserData):
 	name = "HttpAlert Plugin"
