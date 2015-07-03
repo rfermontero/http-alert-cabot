@@ -37,9 +37,9 @@ class HttpAlert(AlertPlugin):
 		})
 
 		message = Template(post_template).render(c)
-		self.send_post_alert(message, color=color, sender='Cabot/%s' % service.name)
+		self.post_http(message, color=color, sender='Cabot/%s' % service.name)
 
-	def send_post_alert(self, message, color='green', sender='Cabot'):
+	def post_http(self, message, color='green', sender='Cabot'):
 
 		url = env.get('http://10.0.35.44:3000')
 
