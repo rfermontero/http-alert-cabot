@@ -37,9 +37,9 @@ class HttpAlert(AlertPlugin):
 		})
 
 		message = Template(post_template).render(c)
-		self._send_post_alert(message, color=color, sender='Cabot/%s' % service.name)
+		self.send_post_alert(message, color=color, sender='Cabot/%s' % service.name)
 
-	def _send_hipchat_alert(self, message, color='green', sender='Cabot'):
+	def send_post_alert(self, message, color='green', sender='Cabot'):
 
 		url = env.get('http://10.0.35.44:3000')
 
