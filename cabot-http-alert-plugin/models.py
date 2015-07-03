@@ -41,7 +41,7 @@ class HttpAlert(AlertPlugin):
 
 	def post_http(self, message, color='green', sender='Cabot'):
 
-		resp = requests.post('http://169.254.161.235:3000',
+		resp = requests.post('http://169.254.161.235:3000/alerts',
 			data={
 			'from': sender[:15],
 			'message': message,
