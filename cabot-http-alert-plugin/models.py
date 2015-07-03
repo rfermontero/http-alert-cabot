@@ -52,7 +52,7 @@ class HttpAlert(AlertPlugin):
 class HttpAlertUserData(AlertPluginUserData):
 	name = "HttpAlert Plugin"
 	key = models.CharField(max_length=32, blank=False, verbose_name="User/Group Key")
-	alert_on_warn = models.BooleanField(default=False)
+	alert_on_warn = models.BooleanField(default=true)
 
 
 
