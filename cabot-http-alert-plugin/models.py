@@ -21,6 +21,7 @@ class HttpAlert(AlertPlugin):
 
 	def post_http(self, service, color='green'):
 		headers = {'content-type': 'application/json'}
+		service.datetime =''
 		data = json.dumps(service.__dict__)
 		url = 'http://169.254.161.235:3000/alerts'
 		resp = requests.post(url,data=data,headers=headers)
